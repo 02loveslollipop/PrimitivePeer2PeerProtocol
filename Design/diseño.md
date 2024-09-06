@@ -6,8 +6,9 @@
 
 ### Secuencia para solicitar un archivo
 1. el peer que requiere un archivo se comunica con el servidor mediante un HTTP GET solicitando la lista de archivos disponibles
-2. el peer selecciona el archivo que desea y se comunica con el servidor mediante un HTTP GET solicitando la direccion del peer que tiene el archivo, el servidor responde con un HTTP 200 mostrando que se recibio correctamente
-3. el peer se comunica con el peer que tiene el archivo mediante una llamdo HTTP GET solicitando el archivo, el peer que tiene el archivo responde con un HTTP 200 y envia el binario del archivo
+2. el peer selecciona el archivo que desea y se comunica con el servidor mediante un HTTP GET solicitando la direccion del peer que tiene el archivo y su hash de autenticacion, responde con un HTTP 200 con la direccion del archivo y el hash de autenticacion
+3. el peer se comunica con el peer que tiene el archivo mediante una llamdo HTTP GET solicitando el archivo, el peer que tiene el archivo verifica en el servidor master si el usuario que esta solicitando el archivo esta autenticado, si lo esta responde con un HTTP 200 y envia el binario del archivo, si no responde con un HTTP 401
+
 4. el peer que solicito el archivo recibe el archivo en binario y lo guarda en su sistema de archivos
 
 ### Secuencia de desconexión

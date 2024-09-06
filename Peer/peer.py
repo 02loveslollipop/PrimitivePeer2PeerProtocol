@@ -11,7 +11,7 @@ app = Flask(__name__)
 config = config()
 
 def checkIfAuthInMaster(Key: str):
-    requests
+    requests 
     
 
 
