@@ -1,0 +1,10 @@
+control:
+  ip: "192.168.0.1"
+  port: 8000
+  seed: 781
+data:
+  port: 8001
+self:
+  path: "/home/zerotwo/dataTest"
+
+
