@@ -9,3 +9,11 @@
 2. el peer selecciona el archivo que desea y se comunica con el servidor mediante un HTTP GET solicitando la direccion del peer que tiene el archivo, el servidor responde con un HTTP 200 mostrando que se recibio correctamente
 3. el peer se comunica con el peer que tiene el archivo mediante una llamdo HTTP GET solicitando el archivo, el peer que tiene el archivo responde con un HTTP 200 y envia el binario del archivo
 4. el peer que solicito el archivo recibe el archivo en binario y lo guarda en su sistema de archivos
+
+### Secuencia de desconexión
+1. el peer envia mediante una llamada a una llamada gRPC al servidor un mensaje mostrando que esta desconectado
+2. el servidor elimina los archivos del peer de su lista de archivos disponibles
+
+## Otras consideraciones
+### Tiempo de vida
+Si el proceso del peer se cierra de manera inesperada, no se ejecutaria la secuencia de desconexion, por lo que como medida extra se debe implementar un tiempo de vida para los peers, los peers deben enviar un mensaje de disponibilidad cada cierto tiempo, si el servidor no recibe un mensaje de disponibilidad en un tiempo determinado, se considera que el peer se desconecto y se eliminan los archivos del peer de la lista de archivos disponibles
