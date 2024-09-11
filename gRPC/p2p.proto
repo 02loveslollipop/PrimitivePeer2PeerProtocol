@@ -7,7 +7,7 @@ service Greeter {
   rpc leave (disconnectionData) returns (disconnectionReply) {}
 }
 
-// Mesage with magic number to generate the Auth hash
+// Mesage with magic number to generate the Auth hash connectionData
 message connectionData {
   string number = 1;
   string uri = 2;

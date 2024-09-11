@@ -26,5 +26,5 @@ class Greeter(p2p_pb2_grpc.GreeterServicer):
                 context.set_code(grpc.StatusCode.OK)
             else:
                 context.set_code(grpc.StatusCode.NOT_FOUND)
-                return p2p_pb2.connectionReply(status=False)
-        return p2p_pb2.connectionReply(status=True)
+                return p2p_pb2.disconnectionReply(status=False)
+        return p2p_pb2.disconnectionReply(status=True)

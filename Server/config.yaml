@@ -1,11 +1,8 @@
 control:
-  ip: "192.168.0.1" # To request data location and to send control messages
   port: 8000 # Port to listen for incoming control messages
   seed: 781 # Seed to generate the random number
-data:
+peer:
   port: 8001 # Port to listen for incoming data or to request data
-self:
-  path: "/home/zerotwo/dataTest" # Path of the files to be shared
   ttl: 900 # Time to live in seconds
 
 
