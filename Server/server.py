@@ -14,7 +14,7 @@ def genAuthToken(client_id: str) -> str:
 
 def addPeer(client_id: str, ip: str, port: int) -> str:
     token = genAuthToken(client_id)
-    PeerHandler.addPeer(client_id, ip, port, token)
+    peerHandler.addPeer(client_id, ip, port, token)
     return token
 
 @app.route('/register', methods=['POST'])
@@ -60,7 +60,7 @@ def register():
     if genericToken != conf.token:
         return jsonify({"message": "Invalid token"}), 401
     
-    if PeerHandler.peerExists(client_id):
+    if peerHandler.peerExists(client_id):
         return jsonify({"message": "Peer already registered"}), 400
 
     token = addPeer(client_id, ip, port)
@@ -98,10 +98,10 @@ def unregister():
     if token is None:
         return jsonify({"message": "Invalid request"}), 400
     
-    if not PeerHandler.authPeer(token):
+    if not peerHandler.authPeer(token):
         return jsonify({"message": "Peer not found"}), 404
     
-    PeerHandler.removePeer(token)
+    peerHandler.removePeer(token)
     return jsonify({"message": "Peer unregistered"}), 200
 
 @app.route('/add_file', methods=['POST'])
@@ -141,10 +141,10 @@ def add_file():
     if token is None or file_name is None:
         return jsonify({"message": "Invalid request"}), 400
     
-    if not PeerHandler.authPeer(token):
+    if not peerHandler.authPeer(token):
         return jsonify({"message": "Peer not found"}), 404
     
-    PeerHandler.addFile(file_name, token)
+    peerHandler.addFile(file_name, token)
     return jsonify({"message": "File added"}), 200
 
 @app.route('/get_files', methods=['GET']) #TODO: check if this should be a POST request
@@ -180,10 +180,10 @@ def get_files():
     if token is None:
         return jsonify({"message": "Invalid request"}), 400
     
-    if not PeerHandler.authPeer(token):
+    if not peerHandler.authPeer(token):
         return jsonify({"message": "Peer not found"}), 404
     
-    return jsonify({"files": PeerHandler.getFileList()}), 200
+    return jsonify({"files": peerHandler.getFileList()}), 200
 
 @app.route('/get_file', methods=['GET'])
 def get_file():
@@ -225,10 +225,10 @@ def get_file():
     if token is None or file_name is None:
         return jsonify({"message": "Invalid request"}), 400
     
-    if not PeerHandler.authPeer(token):
+    if not peerHandler.authPeer(token):
         return jsonify({"message": "Peer not found"}), 404
     
-    file_address = PeerHandler.getFileAddress(file_name)
+    file_address = peerHandler.getFileAddress(file_name)
     
     if file_address is None:
         return jsonify({"message": "File not found"}), 404
