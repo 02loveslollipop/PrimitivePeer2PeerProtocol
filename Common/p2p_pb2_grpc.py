@@ -26,7 +26,7 @@ if _version_not_supported:
 
 
 class GreeterStub(object):
-    """Servicio de autenticacion (Connect, Disconnet)
+    """
     """
 
     def __init__(self, channel):
@@ -35,31 +35,19 @@ class GreeterStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.join = channel.unary_unary(
-                '/Greeter/join',
-                request_serializer=p2p__pb2.connectionData.SerializeToString,
-                response_deserializer=p2p__pb2.connectionReply.FromString,
-                _registered_method=True)
-        self.leave = channel.unary_unary(
-                '/Greeter/leave',
-                request_serializer=p2p__pb2.disconnectionData.SerializeToString,
-                response_deserializer=p2p__pb2.disconnectionReply.FromString,
+        self.getFile = channel.unary_unary(
+                '/Greeter/getFile',
+                request_serializer=p2p__pb2.fileRequest.SerializeToString,
+                response_deserializer=p2p__pb2.fileBytes.FromString,
                 _registered_method=True)
 
 
 class GreeterServicer(object):
-    """Servicio de autenticacion (Connect, Disconnet)
+    """
     """
 
-    def join(self, request, context):
-        """Join the p2p network
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def leave(self, request, context):
-        """Leave the p2p network
+    def getFile(self, request, context):
+        """Get the binary of the file requested if it exists else return an error
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -68,15 +56,10 @@ class GreeterServicer(object):
 
 def add_GreeterServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'join': grpc.unary_unary_rpc_method_handler(
-                    servicer.join,
-                    request_deserializer=p2p__pb2.connectionData.FromString,
-                    response_serializer=p2p__pb2.connectionReply.SerializeToString,
-            ),
-            'leave': grpc.unary_unary_rpc_method_handler(
-                    servicer.leave,
-                    request_deserializer=p2p__pb2.disconnectionData.FromString,
-                    response_serializer=p2p__pb2.disconnectionReply.SerializeToString,
+            'getFile': grpc.unary_unary_rpc_method_handler(
+                    servicer.getFile,
+                    request_deserializer=p2p__pb2.fileRequest.FromString,
+                    response_serializer=p2p__pb2.fileBytes.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -87,11 +70,11 @@ def add_GreeterServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class Greeter(object):
-    """Servicio de autenticacion (Connect, Disconnet)
+    """
     """
 
     @staticmethod
-    def join(request,
+    def getFile(request,
             target,
             options=(),
             channel_credentials=None,
@@ -104,36 +87,9 @@ class Greeter(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/Greeter/join',
-            p2p__pb2.connectionData.SerializeToString,
-            p2p__pb2.connectionReply.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def leave(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/Greeter/leave',
-            p2p__pb2.disconnectionData.SerializeToString,
-            p2p__pb2.disconnectionReply.FromString,
+            '/Greeter/getFile',
+            p2p__pb2.fileRequest.SerializeToString,
+            p2p__pb2.fileBytes.FromString,
             options,
             channel_credentials,
             insecure,
