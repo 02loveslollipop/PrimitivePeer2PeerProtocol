@@ -1,32 +1,19 @@
 syntax = "proto3";
-//Servicio de autenticacion (Connect, Disconnet)
+//
 service Greeter {
-  // Join the p2p network
-  rpc join (connectionData) returns (connectionReply) {}
-  // Leave the p2p network
-  rpc leave (disconnectionData) returns (disconnectionReply) {}
+  // Get the binary of the file requested if it exists else return an error
+  rpc getFile (fileRequest) returns (fileBytes) {}
 }
 
-// Mesage with magic number to generate the Auth hash connectionData
-message connectionData {
-  string number = 1;
-  string uri = 2;
+// Mesage with the file path to request
+message fileRequest {
+  string file_path = 1;
 }
 
-//Message with auth hash to disconnect
-message disconnectionData {
-  string hash = 1;
+//Message with the byte array of the file requested
+message fileBytes {
+  bytes file_bytes = 1;
 }
 
-// Response message with confirmation of joining
-message connectionReply {
-  bool message = 1;
-}
-
-// Response message with confirmation of leaving
-message disconnectionReply {
-  bool message = 1;
-  
-}
 
 //compilation: python -m grpc_tools.protoc -I./gRPC --python_out=./Common --pyi_out=./Common --grpc_python_out=. ./gRPC/p2p.proto
