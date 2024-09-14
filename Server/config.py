@@ -6,5 +6,4 @@ class config:
             config = yaml.load(file, Loader=yaml.FullLoader)
             self.token = config['auth']['token']
             self.control_port = config['control']['port']
-            self.dataPort = config['peer']['port']
-            self.ttl = config['peer']['ttl']            
+            self.dataPort = config['peer']['port']         

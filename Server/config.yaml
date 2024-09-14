@@ -2,7 +2,6 @@ control:
   port: 8000 # Port to listen for incoming control messages
 peer:
   port: 8001 # Port to listen for incoming data or to request data
-  ttl: 900 # Time to live in seconds
 auth:
   token: "secret" # Token to authenticate
 

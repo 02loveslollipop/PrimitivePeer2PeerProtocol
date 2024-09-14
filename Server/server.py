@@ -6,7 +6,7 @@ import time
 
 conf = config()
 app = Flask(__name__)
-peerHandler = PeerHandler(conf.ttl)
+peerHandler = PeerHandler()
 
 def genAuthToken(client_id: str) -> str:
     input = client_id + str(time.time())

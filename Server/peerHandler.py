@@ -6,8 +6,7 @@ import requests
 
 class PeerHandler:
     
-    def __init__(self, ttl:int) -> None:
-        self.ttl = ttl
+    def __init__(self) -> None:
         self.peerList = []
         self.fileList = []
                 
