@@ -1,3 +1,6 @@
 /Test/__pycache__/
 /Server/__pycache__/
-/Client/__pycache__/
+/Peer/__pycache__/
+/Peer/peer1/
+/Peer/peer2/
+delete.py
