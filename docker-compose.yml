@@ -11,7 +11,7 @@ services:
     ports:
       - 8000:8000
   peer1:
-    image: 'p4_peer:latest'
+    image: 'p4_peer:0.0.1'
     hostname: 'p4_peer1'
     container_name: 'p4_peer1'
     depends_on:
@@ -25,7 +25,7 @@ services:
     volumes:
       - ./files/peer1:/peer1
   peer2:
-    image: 'p4_peer:latest'
+    image: 'p4_peer:0.0.1'
     hostname: 'p4_peer2'
     container_name: 'p4_peer2'
     depends_on:
@@ -39,7 +39,7 @@ services:
     volumes:
       - ./files/peer2:/peer2
   peer3:
-    image: 'p4_peer:latest'
+    image: 'p4_peer:0.0.1'
     hostname: 'p4_peer3'
     container_name: 'p4_peer3'
     depends_on:
@@ -53,7 +53,7 @@ services:
     volumes:
       - ./files/peer3:/peer3
   peer4:
-    image: 'p4_peer:latest'
+    image: 'p4_peer:0.0.1'
     hostname: 'p4_peer4'
     container_name: 'p4_peer4'
     depends_on:
@@ -66,9 +66,9 @@ services:
       - 8001:8004
     volumes:
       - ./files/peer4:/peer4
-  networks:
-    p2pnet:
-      ipam:
-        driver: bridge
-        config:
-          - subnet: "192.168.1.0/24"
+networks:
+  p2pnet:
+    ipam:
+      driver: bridge
+      config:
+        - subnet: "192.168.1.0/24"
