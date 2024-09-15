@@ -226,7 +226,7 @@ def get_file():
         return jsonify({"message": "Invalid request"}), 400
     
     if not peerHandler.authPeer(token):
-        return jsonify({"message": "Peer not found"}), 404
+        return jsonify({"message": "Peer not found"}), 401
     
     file_address = peerHandler.getFileAddress(file_name)
     
