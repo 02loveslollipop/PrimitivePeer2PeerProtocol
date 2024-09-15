@@ -16,14 +16,10 @@ class P2PServiceServicer(p2p_pb2_grpc.GreeterServicer):
         '''
         conf = config()
         absolute_path = conf.path + request.file_path
-        print(absolute_path)
         try:
-            print("Trying to open file")
             with open(absolute_path, "rb") as file:
-                print("File opened, trying to read")
                 return p2p_pb2.fileBytes(file_bytes=file.read())
         except FileNotFoundError:
-            print("File not found")
             context.set_code(grpc.StatusCode.NOT_FOUND)
             context.set_details("File not found")
             return p2p_pb2.fileBytes(file_bytes=b"")
