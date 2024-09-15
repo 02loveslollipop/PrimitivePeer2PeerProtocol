@@ -51,15 +51,15 @@ def connect(stringBuffer: StringBuffer, peerClient: PeerClient, host:str = None,
     if token is not None:
         peerClient.config.token = token
     peerClient.register()
-    stringBuffer += cu.green(f"Connected to {peerClient.config.ip}:{peerClient.config.control_port}\n")
+    stringBuffer += cu.cyan(f"Connected to {peerClient.config.ip}:{peerClient.config.control_port}\n")
 
 def disconnect(stringBuffer: StringBuffer, peerClient: PeerClient) -> None:
     peerClient.unregister()
-    stringBuffer += cu.green("Disconnected from the server\n")
+    stringBuffer += cu.cyan("Disconnected from the server\n")
 
 def listFiles(stringBuffer: StringBuffer, peerClient: PeerClient) -> None:
     files = peerClient.getFileList()
-    stringBuffer += cu.green(f"files@{peerClient.config.ip}:{peerClient.config.control_port}\n")
+    stringBuffer += cu.cyan(f"files@{peerClient.config.ip}:{peerClient.config.control_port}\n")
     if len(files) == 0:
         stringBuffer += "*\n"
         return
@@ -68,8 +68,8 @@ def listFiles(stringBuffer: StringBuffer, peerClient: PeerClient) -> None:
 
 
 def where(stringBuffer: StringBuffer, peerClient: PeerClient, file:str) -> None:
-    address = peerClient.getFileAddress(file)
-    stringBuffer += cu.green(f"{file} is available at {address}\n")
+    address = peerClient.getFile(file)
+    stringBuffer += cu.magenta(f"{file} is available at {address}\n")
 
 
 def get(stringBuffer: StringBuffer, peerClient: PeerClient, file:str, output:str = None) -> None:
@@ -78,8 +78,17 @@ def get(stringBuffer: StringBuffer, peerClient: PeerClient, file:str, output:str
     url = peerClient.getFile(file, output)
     msg = f"{file} found at {url}"
     print(msg, end="\n")
-    stringBuffer += cu.green(msg) + "\n"
-    #TODO: finish implementation
+    stringBuffer += cu.cyan(msg) + "\n"
+    msg = cu.cyan(f"Retrieving {file}...")
+    print(msg, end="\n")
+    stringBuffer += msg + "\n"
+    bytesArray = peerClient.getBinaryFile(file)
+    print(bytesArray) #TODO: remove this line
+    msg = cu.cyan(f"Saving {file} to {output}")
+    print(msg, end="\n")
+    stringBuffer += msg + "\n"
+    with open(output, "wb") as f:
+        f.write(bytesArray)
     
 
 def exit(stringBuffer: StringBuffer) -> None:

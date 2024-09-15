@@ -8,7 +8,7 @@ from p2pServiceServicer import P2PServiceServicer
 import random
 
 class PeerServer:
-    def __init__(self, path:str, config: config) -> None: 
+    def __init__(self, path:str, peer_config: config) -> None: 
         '''
         # PeerServer(*self*, path:str) -> None
         the constructor of the PeerServer class it initializes the Server side of the p2p peer, it will make availabe all the file in the path given as argument.
@@ -19,6 +19,7 @@ class PeerServer:
         None
         '''
         self.path = path
+        self.data_port = peer_config.dataPort
         
         if not os.path.exists(path): #if the path does not exist, use the current working directory
             self.path = os.getcwd()
@@ -36,11 +37,11 @@ class PeerServer:
         #create the join request to the server
         joinRequest = {
             "client_id": client_id,
-            "ip": config.ip,
-            "port": config.control_port,
-            "genericToken": config.token
+            "ip": peer_config.ip,
+            "port": peer_config.control_port,
+            "genericToken": peer_config.token
         }
-        request = requests.post(f"http://{config.ip}:{config.control_port}/register", json=joinRequest)
+        request = requests.post(f"http://{peer_config.ip}:{peer_config.control_port}/register", json=joinRequest)
         if request.status_code == 200:
             self.token = request.json()['token']
         else:
@@ -48,7 +49,7 @@ class PeerServer:
 
         #make all the files in path available in the server
         for file in os.listdir(self.path):
-            self._addFile(self.token, file, config.ip, config.control_port)
+            self._addFile(self.token, file, peer_config.ip, peer_config.control_port)
     
     @staticmethod
     def _addFile(token:str, filename: str, host: str, port: int) -> None:
@@ -80,8 +81,8 @@ class PeerServer:
         None
         '''
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-        p2p_pb2_grpc.add_GreeterServicer_to_server(P2PServiceServicer(self.path), server)
-        server.add_insecure_port(f"[::]:{config.dataPort}")
+        p2p_pb2_grpc.add_GreeterServicer_to_server(P2PServiceServicer(), server)
+        server.add_insecure_port(f"[::]:{self.data_port}")
         server.start()
         server.wait_for_termination()
 

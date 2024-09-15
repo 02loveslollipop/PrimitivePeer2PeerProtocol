@@ -91,9 +91,9 @@ class PeerClient:
             "token": self.token,
             "file_name": filename
         }
-        request = requests.get(f"http://{self.config.ip}:{self.config.control_port}/get_file/{filename}", json=json)
+        request = requests.get(f"http://{self.config.ip}:{self.config.control_port}/get_file", json=json)
         if request.status_code == 200:
-            return request.json()['file']
+            return request.json()['file_address']
         else:
             raise ValueError("Invalid token")
         
@@ -106,10 +106,23 @@ class PeerClient:
         ## Returns
         bytes -> the file content
         '''
+        #filename is an URL of a structure like this: grpc://{host}:{port}/{file_name}
+        #Note: {file_name} may contain '/'. Example: grpc://localhost:50051/folder1/file1
+        #parse the URL
+        host = filename.split("//")[1].split(":")[0]
+        port = int(filename.split(":")[2].split("/")[0])
+        print(filename)
+        pathArray = filename.split(":")[2].split("/")
+        pathArray.pop(0)
+        path_to_file = ""
+        for path in pathArray:
+            path_to_file += path + "/"
+        path_to_file = path_to_file[:-1]
+
         #start the gRPC client
-        channel = grpc.insecure_channel(f"{self.config.ip}:{self.config.dataPort}")
+        channel = grpc.insecure_channel(f"{host}:{port}")
         stub = p2p_pb2_grpc.GreeterStub(channel)
-        response = stub.getFile(p2p_pb2.fileRequest(file_name=filename))
+        response = stub.getFile(p2p_pb2.fileRequest(file_name=path_to_file))
         #check if context.set_code(grpc.StatusCode.NOT_FOUND)
         return response.file_bytes
         
