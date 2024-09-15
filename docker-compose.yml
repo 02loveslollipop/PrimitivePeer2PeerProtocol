@@ -33,7 +33,7 @@ services:
     networks:
       - default
     expose:
-      - 8001
+      - 8002
     ports:
       - 8001:8002
     volumes:
