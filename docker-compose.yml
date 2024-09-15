@@ -1,0 +1,73 @@
+version: '0.0.1'
+services:
+  server:
+    image: 'p4_server:latest'
+    hostname: 'p4_server'
+    container_name: 'p4_server'
+    networks:
+      - default
+    expose:
+      - 8000
+    ports:
+      - 8000:8000
+  peer1:
+    image: 'p4_peer:latest'
+    hostname: 'p4_peer1'
+    container_name: 'p4_peer1'
+    depends_on:
+      - server
+    networks:
+      - default
+    expose:
+      - 8001
+    ports:
+      - 8001:8001
+    volumes:
+      - ./files/peer1:/peer1
+  peer2:
+    image: 'p4_peer:latest'
+    hostname: 'p4_peer2'
+    container_name: 'p4_peer2'
+    depends_on:
+      - server
+    networks:
+      - default
+    expose:
+      - 8001
+    ports:
+      - 8001:8002
+    volumes:
+      - ./files/peer2:/peer2
+  peer3:
+    image: 'p4_peer:latest'
+    hostname: 'p4_peer3'
+    container_name: 'p4_peer3'
+    depends_on:
+      - server
+    networks:
+      - default
+    expose:
+      - 8003
+    ports:
+      - 8001:8003
+    volumes:
+      - ./files/peer3:/peer3
+  peer4:
+    image: 'p4_peer:latest'
+    hostname: 'p4_peer4'
+    container_name: 'p4_peer4'
+    depends_on:
+      - server
+    networks:
+      - default
+    expose:
+      - 8004
+    ports:
+      - 8001:8004
+    volumes:
+      - ./files/peer4:/peer4
+  networks:
+    default:
+      ipam:
+        config:
+          - subnet: "192.168.1.0/24"
