@@ -84,7 +84,7 @@ class PeerServer:
         '''
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
         p2p_pb2_grpc.add_GreeterServicer_to_server(P2PServiceServicer(), server)
-        server.add_insecure_port(f"{self.ip}:{self.data_port}")
+        server.add_insecure_port(f"[::]:{self.data_port}")
         server.start()
         server.wait_for_termination()
 
