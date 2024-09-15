@@ -1,9 +1,10 @@
 from peerClient import PeerClient
 from peerServer import PeerServer
 from config import config
+import consoleUtils as cu
 import os
 import sys
-import consoleUtils as cu
+import traceback
 
 class StringBuffer:
     def __init__(self):
@@ -75,14 +76,14 @@ def where(stringBuffer: StringBuffer, peerClient: PeerClient, file:str) -> None:
 def get(stringBuffer: StringBuffer, peerClient: PeerClient, file:str, output:str = None) -> None:
     if output is None:
         output = os.path.join(os.getcwd(), file)
-    url = peerClient.getFile(file, output)
+    url = peerClient.getFile(file)
     msg = f"{file} found at {url}"
     print(msg, end="\n")
     stringBuffer += cu.cyan(msg) + "\n"
     msg = cu.cyan(f"Retrieving {file}...")
     print(msg, end="\n")
     stringBuffer += msg + "\n"
-    bytesArray = peerClient.getBinaryFile(file)
+    bytesArray = peerClient.getBinaryFile(url)
     print(bytesArray) #TODO: remove this line
     msg = cu.cyan(f"Saving {file} to {output}")
     print(msg, end="\n")
@@ -261,8 +262,8 @@ else:
             os.system(clearKey)
             exit(stringBuffer)
         except Exception as e:
-            error = str(e)
-            stringBuffer += cu.red(f"\n{error}\n\n")
+            tb = traceback.format_exc()
+            stringBuffer += cu.red(cu.bold(f"{str(e)}\n\n")) + tb + "\n\n"
         
         
         

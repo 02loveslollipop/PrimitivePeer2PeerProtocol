@@ -5,6 +5,7 @@ import grpc
 from concurrent import futures
 import p2p_pb2_grpc
 from p2pServiceServicer import P2PServiceServicer
+import socket
 import random
 
 class PeerServer:
@@ -20,6 +21,7 @@ class PeerServer:
         '''
         self.path = path
         self.data_port = peer_config.dataPort
+        self.ip = socket.gethostbyname(socket.gethostname())
         
         if not os.path.exists(path): #if the path does not exist, use the current working directory
             self.path = os.getcwd()
@@ -38,7 +40,7 @@ class PeerServer:
         joinRequest = {
             "client_id": client_id,
             "ip": peer_config.ip,
-            "port": peer_config.control_port,
+            "port": peer_config.dataPort,
             "genericToken": peer_config.token
         }
         request = requests.post(f"http://{peer_config.ip}:{peer_config.control_port}/register", json=joinRequest)
@@ -82,7 +84,7 @@ class PeerServer:
         '''
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
         p2p_pb2_grpc.add_GreeterServicer_to_server(P2PServiceServicer(), server)
-        server.add_insecure_port(f"[::]:{self.data_port}")
+        server.add_insecure_port(f"{self.ip}:{self.data_port}")
         server.start()
         server.wait_for_termination()
 

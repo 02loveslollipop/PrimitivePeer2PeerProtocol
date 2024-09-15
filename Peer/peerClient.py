@@ -109,6 +109,7 @@ class PeerClient:
         #filename is an URL of a structure like this: grpc://{host}:{port}/{file_name}
         #Note: {file_name} may contain '/'. Example: grpc://localhost:50051/folder1/file1
         #parse the URL
+        print(filename) #TODO: remove this
         host = filename.split("//")[1].split(":")[0]
         port = int(filename.split(":")[2].split("/")[0])
         print(filename)
@@ -122,7 +123,7 @@ class PeerClient:
         #start the gRPC client
         channel = grpc.insecure_channel(f"{host}:{port}")
         stub = p2p_pb2_grpc.GreeterStub(channel)
-        response = stub.getFile(p2p_pb2.fileRequest(file_name=path_to_file))
+        response = stub.getFile(p2p_pb2.fileRequest(file_path=path_to_file))
         #check if context.set_code(grpc.StatusCode.NOT_FOUND)
         return response.file_bytes
         
