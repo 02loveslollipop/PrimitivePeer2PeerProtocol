@@ -1,11 +1,11 @@
-version: '0.0.1'
+version: '3.8'
 services:
   server:
     image: 'p4_server:latest'
     hostname: 'p4_server'
     container_name: 'p4_server'
     networks:
-      - default
+      - p2pnet
     expose:
       - 8000
     ports:
@@ -17,7 +17,7 @@ services:
     depends_on:
       - server
     networks:
-      - default
+      - p2pnet
     expose:
       - 8001
     ports:
@@ -31,7 +31,7 @@ services:
     depends_on:
       - server
     networks:
-      - default
+      - p2pnet
     expose:
       - 8002
     ports:
@@ -45,7 +45,7 @@ services:
     depends_on:
       - server
     networks:
-      - default
+      - p2pnet
     expose:
       - 8003
     ports:
@@ -59,7 +59,7 @@ services:
     depends_on:
       - server
     networks:
-      - default
+      - p2pnet
     expose:
       - 8004
     ports:
@@ -67,7 +67,7 @@ services:
     volumes:
       - ./files/peer4:/peer4
   networks:
-    default:
+    p2pnet:
       ipam:
         config:
           - subnet: "192.168.1.0/24"
