@@ -10,3 +10,4 @@ class config:
             self.control_port = config['control']['port']
             self.dataPort = config['peer']['port']
             self.ip = config['control']['ip']
+            self.path = config['peer']['path']

@@ -48,10 +48,10 @@ class PeerServer:
 
         #make all the files in path available in the server
         for file in os.listdir(self.path):
-            self._addFile(file)
+            self._addFile(self.token, file, config.ip, config.control_port)
     
     @staticmethod
-    def _addFile(token:str, filename: str, host: str) -> None:
+    def _addFile(token:str, filename: str, host: str, port: int) -> None:
         '''
         # _addFile(token:str, filename: str, host: str) -> None
         add a file to the server
@@ -66,7 +66,7 @@ class PeerServer:
             "file_name": filename,
             "token": token
         }
-        request = requests.post(f"http://{host}/add_file", json=json)
+        request = requests.post(f"http://{host}:{port}/add_file", json=json)
         if request.status_code != 200:
             raise ValueError("Invalid token")
     

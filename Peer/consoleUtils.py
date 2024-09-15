@@ -47,10 +47,11 @@ def helpHandler():
     string = "Welcome to the Primitive Peer 2 Peer Protocol (P4) console line interface help utility! If this is your first time using this program, you should read the documentation.\n\n"
     string += blue(bold("The command of the utility are:\n\n"))
     string += "- help: print the help message\n"
-    string += f"- connect {yellow('[-h host]')} {yellow('[-p port]')}: connect to the server, if no host AND port is given, the values in the configuration file will be used\n"
+    string += f"- connect {yellow('[-h host]')} {yellow('[-p port]')} {yellow('[-t token]')}: connect to the server, if no host, port AND Token is given, the values in the configuration file will be used\n"
+    string += f"- disconnect: disconnect from the server\n"
     string += f"- list: list the files available in the server\n"
     string += f"- where {yellow('[-f file]')}: get the address of the file\n"
-    string += f"- get {yellow('[-f file]')}: get the file\n"
+    string += f"- get {yellow('[-f file]')} {yellow('[-o output]')}: get the file\n"
     string += f"- exit: exit the program\n"
     return string
 

@@ -39,8 +39,26 @@ class PeerClient:
         if request.status_code == 200:
             self.token = request.json()['token']
         else:
-            raise ValueError("Invalid token")
-        
+            raise ValueError("Could not register in the server")
+    
+    def unregister(self) -> None:
+        '''
+        # unregister(*self*) -> None
+        unregister the peer from the server
+        ## Arguments
+        None
+        ## Returns
+        None
+        '''
+        json = {
+            "token": self.token
+        }
+        request = requests.post(f"http://{self.config.ip}:{self.config.control_port}/unregister", json=json)
+        if request.status_code == 200:
+            token = None
+            
+        else:
+            raise ValueError("Invalid token")   
         
     def getFileList(self) -> list[str]:
         '''
