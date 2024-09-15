@@ -42,7 +42,7 @@ class PeerHandler:
     def getFileAddress(self, filename: str) -> str | None: #TODO: when calling this method, check if the return value is None to return a 404
         for file in self.fileList:
             if file.filename == filename:
-                return f"http://{file.Peer.ip}:{file.Peer.port}/{filename}"
+                return f"grpc://{file.Peer.ip}:{file.Peer.port}/{filename}"
         return None
     
     def authPeer(self, token: str) -> bool:
