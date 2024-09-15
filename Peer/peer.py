@@ -167,8 +167,8 @@ else:
             - connect [-h host] [-p port] [-t token]: connect to the server, if no host AND port is given, the values in the configuration file will be used
             - disconnect: disconnect from the server
             - list: list the files available in the server
-            - where [-f file]: get the address of the file
-            - get [-f file] [-o output]: get the file and save it in the output file
+            - where [file]: get the address of the file
+            - get [-o output] [file]: get the file and save it in the output file
             - exit: exit the program
             '''
             # help command
@@ -230,25 +230,28 @@ else:
                     stringBuffer += cu.red("You are not connected to the server. For more information, type 'help'\n")
                 else:
                     command = command.split(" ")
-                    if len(command) == 5:
-                        if command[1] == "-f" and command[3] == "-o":
-                            file = command[2]
-                            output = command[4]
-                            get(stringBuffer, peerClient, file, output)
-                        elif command[1] == "-o" and command[3] == "-f":
-                            file = command[4]
-                            output = command[2]
-                            get(stringBuffer, peerClient, file, output)
+                    command.pop(0)
+                    fileFinded = False
+                    passNext = False
+                    output = None
+                    
+                    for i in range(len(command)):
+                        if passNext:
+                            passNext = False
+                            continue
+                        elif command[i] == "-o":
+                            output = command[i+1]
+                            passNext = True
+                            continue
                         else:
-                            stringBuffer += cu.red("Invalid arguments. For more information, type 'help'\n")
-                    if len(command) == 3:
-                        if command[1] == "-f":
-                            file = command[2]
-                            get(stringBuffer, peerClient, file)
-                        else:
-                            stringBuffer += cu.red("Invalid arguments. For more information, type 'help'\n")
-                    else:
+                            file = command[i]
+                            fileFinded = True
+                            continue
+                    
+                    if not fileFinded:
                         stringBuffer += cu.red("Invalid arguments. For more information, type 'help'\n")
+                    
+                    get(stringBuffer, peerClient, file, output)
             
             # exit command
             elif command == "exit":
