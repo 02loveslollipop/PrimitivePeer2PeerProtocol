@@ -214,7 +214,7 @@ def get_file():
         {
             "message": "Peer not found"
         }
-        http status code 404
+        http status code 401
     '''
     try:
         token = request.json['token']
