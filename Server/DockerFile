@@ -1,0 +1,12 @@
+FROM python:3.12.6
+RUN apt-get update
+WORKDIR .
+COPY config.py .
+COPY config.yaml .
+COPY file.py .
+COPY peer.py .
+COPY peerHandler.py .
+COPY server.py .
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+CMD ["python", "server.py"]

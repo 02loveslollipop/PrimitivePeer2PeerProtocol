@@ -1,0 +1,16 @@
+FROM python:3.12.6
+RUN apt-get update
+WORKDIR .
+COPY config.py .
+COPY config.yaml .
+COPY consoleUtils.py .
+COPY p2p_pb2_grpc.py .
+COPY p2p_pb2.py .
+COPY p2p_pb2.pyi .
+COPY p2pServiceServicer.py .
+COPY peer.py .
+COPY peerClient.py .
+COPY peerServer.py .
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+CMD ["python", "peer.py", "--server"]
