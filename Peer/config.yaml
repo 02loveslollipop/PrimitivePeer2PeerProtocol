@@ -1,9 +1,9 @@
 control:
-  ip: 127.0.0.1
+  ip: 107.23.96.211
   port: 8000 # Port to listen for incoming control messages
 peer:
   port: 8001 # Port to listen for incoming data or to request data
-  path: "/home/zerotwo/p2pFileShare/peer1/" # Path of the directory to share
+  path: "./files/" # Path of the directory to share
 auth:
   token: "secret" # Token to authenticate
 
