@@ -39,7 +39,7 @@ class PeerServer:
         #create the join request to the server
         joinRequest = {
             "client_id": client_id,
-            "ip": peer_config.ip,
+            "ip": requests.get('https://api.ipify.org').content.decode('utf8'),
             "port": peer_config.dataPort,
             "genericToken": peer_config.token
         }
